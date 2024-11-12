@@ -469,4 +469,26 @@ const products = [
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
+  {
+    id: "a1f937c2-9d3e-4e07-84b2-8a8f561c32e1",
+    image: "images/products/backpack.jpg",
+    name: "Water Resistant Backpack - Black",
+    rating: {
+      stars: 4.5,
+      count: 168,
+    },
+    priceCents: 2200,
+    keywords: ["backpack", "bag"],
+  },
+  {
+    id: "db285a9b-32c4-4b8a-a59f-7d1a20307d46",
+    image: "images/products/umbrella.jpg",
+    name: "Light Umbrella Portable - Green",
+    rating: {
+      stars: 4,
+      count: 23,
+    },
+    priceCents: 800,
+    keywords: ["umbrella", "shade", "shelter", "sunshade"],
+  },
 ];

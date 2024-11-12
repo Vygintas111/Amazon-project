@@ -45,7 +45,8 @@ products.forEach((products) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart">
+      <div class="added-to-cart js-added-message-${products.id}"
+      data-product-id="${products.id}">
         <img src="images/icons/checkmark.png" />
         Added
       </div>
@@ -58,13 +59,18 @@ products.forEach((products) => {
   `;
 });
 
+// Insert generated product HTML into the page
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
+const addedMessageTimeouts = {};
+
+// Set up the event listeners for each "Add to Cart" button
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
+    const { productId } = button.dataset;
     productId;
 
+    // Update the cart based on the selected quantity
     let matchingItem;
 
     cart.forEach((item) => {
@@ -81,19 +87,42 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     if (matchingItem) {
       matchingItem.quantity += quantity;
     } else {
-      cart.push({
-        productId: productId,
-        quantity: quantity,
-      });
+      cart.push({ productId, quantity });
     }
 
+    // Update the cart quantity display
     let cartQuantity = 0;
-
     cart.forEach((item) => {
       cartQuantity += item.quantity;
     });
-    console.log(cart);
 
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+
+    // Show the "Added to Cart" message
+    const addedMessage = document.querySelector(
+      `.js-added-message-${productId}`
+    );
+    if (!addedMessage) {
+      console.error(
+        `No added message element found for product ID: ${productId}`
+      );
+      return;
+    }
+
+    // Make the "Added" message visible
+    addedMessage.classList.add("added-to-cart-visible");
+
+    // Clear any existing timeout for this product
+    if (addedMessageTimeouts[productId]) {
+      clearTimeout(addedMessageTimeouts[productId]);
+    }
+
+    // Set a new timeout to hide the message after 2 seconds
+    const timeoutId = setTimeout(() => {
+      addedMessage.classList.remove("added-to-cart-visible");
+    }, 2000);
+
+    // Store the timeout ID for this product
+    addedMessageTimeouts[productId] = timeoutId;
   });
 });
