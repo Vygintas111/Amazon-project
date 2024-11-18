@@ -7,7 +7,6 @@ import {
 } from "../../data/cart.js";
 import { products, getProduct } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import {
   deliveryOptions,
   getDeliveryOption,
@@ -51,15 +50,16 @@ export function renderOrderSummary() {
             </div>
             <div class="product-quantity">
               <span>
-                Quantity: <span class="quantity-label js-quantity-label-${
-                  matchingProduct.id
-                }">${cartItem.quantity}</span>
+                Quantity: <span class="quantity-label 
+                js-quantity-label-${matchingProduct.id}">
+                  ${cartItem.quantity}
+                </span>
               </span>
               <span class="update-quantity-link link-primary js-update-link"
               data-product-id="${matchingProduct.id}">
                 Update
               </span>
-              <input class="quantity-input js-quantity-input-${
+              <input type="number" class="quantity-input js-quantity-input-${
                 matchingProduct.id
               }">
               <span class="save-quantity-link link-primary js-save-quantity-link"
@@ -128,11 +128,9 @@ export function renderOrderSummary() {
         const productId = link.dataset.productId;
         removeFromCart(productId);
 
+        renderCheckoutHeader();
         renderOrderSummary();
         renderPaymentSummary();
-        renderCheckoutHeader();
-
-        updateCartQuantity();
       });
     });
   }
@@ -156,6 +154,11 @@ export function renderOrderSummary() {
       link.addEventListener("click", () => {
         const productId = link.dataset.productId;
 
+        const container = document.querySelector(
+          `.js-cart-item-container-${productId}`
+        );
+        container.classList.remove("is-editing-quantity");
+
         const quantityInput = document.querySelector(
           `.js-quantity-input-${productId}`
         );
@@ -167,17 +170,9 @@ export function renderOrderSummary() {
         }
         updateQuantity(productId, newQuantity);
 
-        const container = document.querySelector(
-          `.js-cart-item-container-${productId}`
-        );
-
-        const quantityLabel = document.querySelector(
-          `.js-quantity-label-${productId}`
-        );
-        quantityLabel.innerHTML = newQuantity;
-
-        container.classList.remove("is-editing-quantity");
-        updateCartQuantity();
+        renderCheckoutHeader();
+        renderOrderSummary();
+        renderPaymentSummary();
       });
     });
   }
