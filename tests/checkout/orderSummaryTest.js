@@ -37,17 +37,33 @@ describe("test suite: renderSummary", () => {
     document.querySelector(".js-test-container").innerHTML = "";
   });
 
-  it("displays the cart", () => {
-    expect(document.querySelectorAll(".js-cart-item-container").length).toEqual(
-      2
-    );
-    expect(
-      document.querySelector(`.js-product-quantity-${productId1}`).innerText
-    ).toContain("Quantity: 2");
+  describe("displays the cart", () => {
+    it("displays the product quantity in the cart", () => {
+      expect(
+        document.querySelectorAll(".js-cart-item-container").length
+      ).toEqual(2);
 
-    expect(
-      document.querySelector(`.js-product-quantity-${productId2}`).innerText
-    ).toContain("Quantity: 1");
+      expect(
+        document.querySelector(`.js-product-quantity-${productId1}`).innerText
+      ).toContain("Quantity: 2");
+
+      expect(
+        document.querySelector(`.js-product-quantity-${productId2}`).innerText
+      ).toContain("Quantity: 1");
+    });
+    it("displays the product name", () => {
+      expect(
+        document.querySelector(`.js-product-name-${productId1}`).innerText
+      ).toEqual("Black and Gray Athletic Cotton Socks - 6 Pairs");
+      expect(
+        document.querySelector(`.js-product-name-${productId2}`).innerText
+      ).toEqual("Intermediate Size Basketball");
+    });
+    it("displays the product price", () => {
+      expect(
+        document.querySelector(`.js-product-price-${productId1}`).innerText
+      ).toContain("$");
+    });
   });
 
   it("removes a product", () => {
