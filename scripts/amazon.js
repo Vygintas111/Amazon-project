@@ -2,6 +2,7 @@ import {
   cart,
   addToCart,
   addToCartMessage,
+  // updateCartQuantity,
   calculateCartQuantity,
 } from "../data/cart.js";
 import { products } from "../data/products.js";
@@ -69,14 +70,8 @@ products.forEach((products) => {
 // Insert generated product HTML into the page
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-function updateCartQuantity() {
-  // Update the cart quantity display
-
-  const cartQuantity = calculateCartQuantity();
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-}
-
-updateCartQuantity();
+// updateCartQuantity();
+document.querySelector(".js-cart-quantity").innerHTML = calculateCartQuantity();
 
 // Set up the event listeners for each "Add to Cart" button
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
@@ -84,8 +79,15 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     const { productId } = button.dataset;
     productId;
 
-    addToCart(productId);
-    updateCartQuantity();
+    const quantitySelector = document.querySelector(
+      `.js-quantity-selector-${productId}`
+    );
+    const quantity = Number(quantitySelector.value);
+
+    addToCart(productId, quantity);
+    document.querySelector(".js-cart-quantity").innerHTML =
+      calculateCartQuantity();
+    // updateCartQuantity();
     addToCartMessage(productId);
   });
 });

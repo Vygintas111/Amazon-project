@@ -27,7 +27,11 @@ function saveToStorage() {
 
 const addedMessageTimeouts = {};
 
-export function addToCart(productId) {
+export function addToCart(productId, quantity) {
+  if (typeof quantity !== "number" || quantity <= 0) {
+    console.log("Invalid quantity: ", quantity);
+  }
+
   // Update the cart based on the selected quantity
   let matchingItem;
 
@@ -43,11 +47,11 @@ export function addToCart(productId) {
   // const quantity = Number(quantitySelector.value);
 
   if (matchingItem) {
-    matchingItem.quantity += 1; // quantity
+    matchingItem.quantity += quantity; // quantity
   } else {
     cart.push({
       productId: productId,
-      quantity: 1, // quantity
+      quantity: quantity, // quantity
       deliveryOptionId: "1",
     });
   }
@@ -103,6 +107,15 @@ export function calculateCartQuantity() {
   });
   return cartQuantity;
 }
+
+// export function updateCartQuantity() {
+//   // Update the cart quantity display
+
+//   const cartQuantity = calculateCartQuantity();
+//   document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+
+//   return cartQuantity;
+// }
 
 export function updateQuantity(productId, newQuantity) {
   let matchingItem;
