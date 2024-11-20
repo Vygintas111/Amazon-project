@@ -148,9 +148,6 @@ cart.loadFromStorage();
 
 businessCart.loadFromStorage();
 
-console.log(cart);
-console.log(businessCart);
-
 // export function updateCartQuantity() {
 //   // Update the cart quantity display
 
